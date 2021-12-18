@@ -67,6 +67,7 @@ public class ClotheService {
         }
     }
     
+    
     public boolean delete(String id){
         return getProduct(id).map(product -> {
             productRepository.delete(product);
