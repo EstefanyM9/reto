@@ -39,7 +39,7 @@ public class OrderService {
     public Order update(Order order){
         if (order.getId() != null){
             Optional<Order> dbOrder = orderRepository.getOrder(order.getId());
-            if (!dbOrder.isEmpty()){
+            if (dbOrder.isPresent()){
                 if (order.getId() != null){
                     dbOrder.get().setId(order.getId());
                 }
@@ -71,7 +71,6 @@ public class OrderService {
         }
         return order;
     }
-
 
     public boolean delete(int orderId){
         Boolean orderBoolean = getOrder(orderId).map(order -> {
