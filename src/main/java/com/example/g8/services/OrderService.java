@@ -36,40 +36,71 @@ public class OrderService {
         }
     }
 
-    public Order update(Order order){
-        if (order.getId() != null){
-            Optional<Order> dbOrder = orderRepository.getOrder(order.getId());
-            if (dbOrder.isPresent()){
-                if (order.getId() != null){
-                    dbOrder.get().setId(order.getId());
+    public User save(User user) {
+        if (user.getId() == null) {
+            return user;
+        } else {
+            Optional<User> dbUser = userRepository.getUser(user.getId());
+            if (!dbUser.isPresent()) {
+                if (emailExists(user.getEmail()) == false) {
+                    return userRepository.save(user);
+                } else {
+                    return user;
                 }
-
-                if (order.getRegisterDay() != null){
-                    dbOrder.get().setRegisterDay(order.getRegisterDay());
-                }
-
-                if (order.getStatus() != null){
-                    dbOrder.get().setStatus(order.getStatus());
-                }
-
-                if (order.getSalesMan() != null){
-                    dbOrder.get().setSalesMan(order.getSalesMan());
-                }
-
-                if (order.getProducts() != null){
-                    dbOrder.get().setProducts(order.getProducts());
-                }
-
-                if (order.getQuantities() != null){
-                    dbOrder.get().setQuantities(order.getQuantities());
-                }
-                orderRepository.update(dbOrder.get());
-                return dbOrder.get();
             } else {
-                return order;
+                return user;
             }
         }
-        return order;
+        }
+
+    /**
+     * This method updates a user
+     * @param user
+     * @return
+     */
+    public User update(User user) {
+        if (user.getId() != null) {
+            Optional<User> dbUser = userRepository.getUser(user.getId());
+            if (dbUser.isPresent()) {
+                if (user.getIdentification() != null) {
+                    dbUser.get().setIdentification(user.getIdentification());
+                }
+                if (user.getName() != null) {
+                    dbUser.get().setName(user.getName());
+                }
+
+                /*if (user.getBirthtDay() != null){
+                    dbUser.get().setBirthtDay(user.getBirthtDay());
+                }
+
+                if (user.getMonthBirthtDay() != null){
+                    dbUser.get().setMonthBirthtDay(user.getMonthBirthtDay());
+                }*/
+                if (user.getAddress() != null) {
+                    dbUser.get().setAddress(user.getAddress());
+                }
+                if (user.getCellPhone() != null) {
+                    dbUser.get().setCellPhone(user.getCellPhone());
+                }
+                if (user.getEmail() != null) {
+                    dbUser.get().setEmail(user.getEmail());
+                }
+                if (user.getPassword() != null) {
+                    dbUser.get().setPassword(user.getPassword());
+                }
+                if (user.getZone() != null) {
+                    dbUser.get().setZone(user.getZone());
+                }
+                if (user.getType() != null) {
+                    dbUser.get().setType(user.getType());
+                }
+                userRepository.update(dbUser.get());
+                return dbUser.get();
+            } else {
+                return user;
+            }
+        }
+        return user;
     }
 
     public boolean delete(int orderId){
